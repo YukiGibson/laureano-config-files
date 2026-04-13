@@ -104,9 +104,9 @@ vim.o.number = true
 --  Experiment for yourself to see if you like it!
 -- vim.o.relativenumber = true
 
--- 4 spaces tab
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+-- 2 spaces tab
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smarttab = true
 
@@ -282,6 +282,101 @@ require('lazy').setup({
   -- options to `gitsigns.nvim`.
   --
   -- See `:help gitsigns` to understand what the configuration keys do
+  {
+    'nickjvandyke/opencode.nvim',
+    version = '*', -- Latest stable release
+    dependencies = {
+      {
+        -- `snacks.nvim` integration is recommended, but optional
+        ---@module "snacks" <- Loads `snacks.nvim` types for configuration intellisense
+        'folke/snacks.nvim',
+        optional = true,
+        opts = {
+          input = {}, -- Enhances `ask()`
+          picker = { -- Enhances `select()`
+            actions = {
+              opencode_send = function(...)
+                return require('opencode').snacks_picker_send(...)
+              end,
+            },
+            win = {
+              input = {
+                keys = {
+                  ['<a-a>'] = { 'opencode_send', mode = { 'n', 'i' } },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    config = function()
+      ---@type opencode.Opts
+      vim.g.opencode_opts = {
+        -- Your configuration, if any; goto definition on the type or field for details
+      }
+
+      vim.o.autoread = true -- Required for `opts.events.reload`
+
+      -- Recommended/example keymaps
+      vim.keymap.set({ 'n', 'x' }, '<C-a>', function()
+        require('opencode').ask('@this: ', { submit = true })
+      end, { desc = 'Ask opencode…' })
+      vim.keymap.set({ 'n', 'x' }, '<C-x>', function()
+        require('opencode').select()
+      end, { desc = 'Execute opencode action…' })
+      vim.keymap.set({ 'n', 't' }, '<C-.>', function()
+        require('opencode').toggle()
+      end, { desc = 'Toggle opencode' })
+
+      vim.keymap.set({ 'n', 'x' }, 'go', function()
+        return require('opencode').operator '@this '
+      end, { desc = 'Add range to opencode', expr = true })
+      vim.keymap.set('n', 'goo', function()
+        return require('opencode').operator '@this ' .. '_'
+      end, { desc = 'Add line to opencode', expr = true })
+
+      vim.keymap.set('n', '<S-C-u>', function()
+        require('opencode').command 'session.half.page.up'
+      end, { desc = 'Scroll opencode up' })
+      vim.keymap.set('n', '<S-C-d>', function()
+        require('opencode').command 'session.half.page.down'
+      end, { desc = 'Scroll opencode down' })
+
+      -- You may want these if you use the opinionated `<C-a>` and `<C-x>` keymaps above — otherwise consider `<leader>o…` (and remove terminal mode from the `toggle` keymap)
+      vim.keymap.set('n', '+', '<C-a>', { desc = 'Increment under cursor', noremap = true })
+      vim.keymap.set('n', '-', '<C-x>', { desc = 'Decrement under cursor', noremap = true })
+    end,
+  },
+  {
+    'iamcco/markdown-preview.nvim',
+    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    build = 'cd app && npm install',
+    init = function()
+      vim.g.mkdp_filetypes = { 'markdown' }
+    end,
+    ft = { 'markdown' },
+  },
+  {
+    'kdheepak/lazygit.nvim',
+    lazy = true,
+    cmd = {
+      'LazyGit',
+      'LazyGitConfig',
+      'LazyGitCurrentFile',
+      'LazyGitFilter',
+      'LazyGitFilterCurrentFile',
+    },
+    -- optional for floating window border decoration
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+    -- setting the keybinding for LazyGit with 'keys' is recommended in
+    -- order to load the plugin when the command is run for the first time
+    keys = {
+      { '<leader>lg', '<cmd>LazyGit<cr>', desc = 'LazyGit' },
+    },
+  },
   {
     'okuuva/auto-save.nvim',
     version = '^1.0.0', -- see https://devhints.io/semver, alternatively use '*' to use the latest tagged release
@@ -1020,7 +1115,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'yaml' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
