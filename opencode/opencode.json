@@ -1,0 +1,70 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "gemma-4-26b-local/gemma-4-26b-Q4",
+  "small_model": "qwen-9b-local/qwen3.5-9b",
+  "provider": {
+    "gemma-4-26b-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp (3090)",
+      "options": {
+        "baseURL": "http://192.168.100.66:11434/v1/"
+      },
+      "models": {
+        "gemma-4-26b-Q4": {
+          "name": "Gemma 4 26B Q4 (local)"
+        }
+      }
+    },
+    "gemma-4-31b-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp (3090)",
+      "options": {
+        "baseURL": "http://192.168.100.66:11434/v1/"
+      },
+      "models": {
+        "gemma-4-31b-Q4": {
+          "name": "Gemma 4 31B Q4 (local)"
+        }
+      }
+    },
+    "qwen-27b-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp (3090)",
+      "options": {
+        "baseURL": "http://192.168.100.66:11434/v1/"
+      },
+      "models": {
+        "qwen3.5-27b": {
+          "name": "Qwen 3.5 27B (local)"
+        }
+      }
+    },
+    "glm-4.7-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp (3090)",
+      "options": {
+        "baseURL": "http://192.168.100.66:11434/v1/"
+      },
+      "models": {
+        "glm-4.7-flash": {
+          "name": "GLM-4.7-Flash (local)"
+        }
+      }
+    },
+    "qwen-9b-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "llama.cpp (6800 XT)",
+      "options": {
+        "baseURL": "http://192.168.100.20:11434/v1"
+      },
+      "models": {
+        "qwen3.5-9b": {
+          "name": "Qwen 3.5 9B (local)"
+        }
+      }
+    }
+  },
+  "experimental": {
+    "disable_paste_summary": true
+  }
+}
