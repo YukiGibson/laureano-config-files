@@ -1,0 +1,16 @@
+{
+  "providers": {
+    "llamacpp-local": {
+      "baseUrl": "http://192.168.100.66:11434/v1",
+      "api": "openai-completions",
+      "apiKey": "llamacpp",
+      "compat": {
+        "supportsDeveloperRole": false,
+        "supportsReasoningEffort": false
+      },
+      "models": [
+        { "id": "qwen3.6-27b-Q4" }
+      ]
+    }
+  }
+}
